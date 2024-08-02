@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 95vw;
+            max-width: 360px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        .app {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 10;
+        }
+        .app i {
+            font-size: 16px;
+            color: black;
+        }
+        .app-name {
+            margin-left: 5px;
+            font-size: 16px;
+        }
+        video {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-around;
+            margin: 10px 0;
+        }
+        .controls .fa {
+            font-size: 36px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .controls .fa:hover {
+            color: #2980b9;
+        }
+        .images-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .image-item {
+            flex: 1 1 calc(50% - 10px);
+            margin: 5px;
+        }
+        .image-item img, .image-item video {
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="app" onclick="openBack()">
+            <i class="fas fa-angle-left"></i>
+            <div class="app-name">Back</div>
+        </div>
+        <video id="video" autoplay></video>
+        <div class="controls">
+            <i class="fa fa-camera" id="captureImage"></i>
+            <i class="fa fa-circle" id="startRecording"></i>
+            <i class="fa fa-square" id="stopRecording" style="color: grey;"></i>
+        </div>
+        <div class="images-container" id="imagesContainer"></div>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const captureImageButton = document.getElementById('captureImage');
+        const startRecordingButton = document.getElementById('startRecording');
+        const stopRecordingButton = document.getElementById('stopRecording');
+        const imagesContainer = document.getElementById('imagesContainer');
+
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        // Access the device camera and stream to video element
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(error => {
+                console.error('Error accessing the camera: ', error);
+            });
+
+        // Capture image
+        captureImageButton.addEventListener('click', () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const imgUrl = canvas.toDataURL('image/png');
+
+            // Store the image data in localStorage
+            let media = JSON.parse(localStorage.getItem('media')) || { images: [], videos: [] };
+            media.images.push(imgUrl);
+            localStorage.setItem('media', JSON.stringify(media));
+
+            const imgElement = document.createElement('img');
+            imgElement.src = imgUrl;
+
+            const imageItem = document.createElement('div');
+            imageItem.classList.add('image-item');
+            imageItem.appendChild(imgElement);
+            imagesContainer.appendChild(imageItem);
+        });
+
+        // Start recording
+        startRecordingButton.addEventListener('click', () => {
+            recordedChunks = [];
+            const stream = video.srcObject;
+            mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.ondataavailable = event => {
+                if (event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                }
+            };
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordedChunks, { type: 'video/mp4' });
+                const videoUrl = URL.createObjectURL(blob);
+
+                // Store the video data in localStorage
+                let media = JSON.parse(localStorage.getItem('media')) || { images: [], videos: [] };
+                media.videos.push(videoUrl);
+                localStorage.setItem('media', JSON.stringify(media));
+
+                const videoElement = document.createElement('video');
+                videoElement.src = videoUrl;
+                videoElement.controls = true;
+
+                const videoItem = document.createElement('div');
+                videoItem.classList.add('image-item');
+                videoItem.appendChild(videoElement);
+                imagesContainer.appendChild(videoItem);
+            };
+            mediaRecorder.start();
+            startRecordingButton.style.color = 'grey';
+            stopRecordingButton.style.color = '#3498db';
+        });
+
+        // Stop recording
+        stopRecordingButton.addEventListener('click', () => {
+            mediaRecorder.stop();
+            startRecordingButton.style.color = '#3498db';
+            stopRecordingButton.style.color = 'grey';
+        });
+
+        // Back button function
+        function openBack() {
+            window.location.href = '../Menu/menugrid.html';
+        }
+    </script>
+</body>
+</html>

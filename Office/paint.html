@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Paint App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative; /* Ensure the absolute positioning is relative to this container */
+        }
+        .app {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 10; /* Ensure it's above other content */
+        }
+        .app i {
+            font-size: 16px;
+            color: black; /* Ensure the icon is visible */
+        }
+        .app-name {
+            margin-left: 5px;
+            font-size: 16px;
+        }
+        h1 {
+            margin-bottom: 20px;
+            position: relative; /* Ensure h1 doesn't interfere with app positioning */
+        }
+        canvas {
+            border: 1px solid #000;
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+        }
+        #controls {
+            margin-top: 20px;
+        }
+        #controls button, #controls select {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #controls button:hover {
+            background-color: #ddd;
+        }
+        .color-picker, .brush-size-picker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .color-picker input, .brush-size-picker input {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="app" onclick="openBackO()">
+            <i class="fas fa-angle-left"></i>
+            <div class="app-name">Back</div>
+        </div>
+        <h1>Simple Paint App</h1>
+        <canvas id="paintCanvas"></canvas>
+        <div id="controls">
+            <button id="clearCanvas">Clear</button>
+            <button id="saveCanvas">Save</button>
+            <div class="color-picker">
+                <label for="colorPicker">Color:</label>
+                <input type="color" id="colorPicker" value="#000000">
+            </div>
+            <div class="brush-size-picker">
+                <label for="brushSize">Brush Size:</label>
+                <input type="range" id="brushSize" min="1" max="20" value="5">
+                <span id="brushSizeValue">5</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openBackO() {
+            window.location.href = '../Office/Office.html';
+        }
+
+        const canvas = document.getElementById('paintCanvas');
+        const ctx = canvas.getContext('2d');
+        const colorPicker = document.getElementById('colorPicker');
+        const brushSizeInput = document.getElementById('brushSize');
+        const brushSizeValue = document.getElementById('brushSizeValue');
+        let painting = false;
+
+        canvas.width = window.innerWidth * 0.9; // Adjust canvas width for mobile view
+        canvas.height = 400; // Set a fixed height
+
+        function startPosition(e) {
+            painting = true;
+            draw(e);
+        }
+
+        function endPosition() {
+            painting = false;
+            ctx.beginPath();
+        }
+
+        function draw(e) {
+            if (!painting) return;
+
+            ctx.lineWidth = brushSizeInput.value;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = colorPicker.value;
+
+            ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+        }
+
+        canvas.addEventListener('mousedown', startPosition);
+        canvas.addEventListener('mouseup', endPosition);
+        canvas.addEventListener('mousemove', draw);
+
+        document.getElementById('clearCanvas').addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        document.getElementById('saveCanvas').addEventListener('click', () => {
+            const dataURL = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = 'drawing.png';
+            link.click();
+        });
+
+        brushSizeInput.addEventListener('input', () => {
+            brushSizeValue.textContent = brushSizeInput.value;
+        });
+
+        // Adjust canvas size on window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth * 0.9;
+            canvas.height = 400;
+        });
+    </script>
+</body>
+</html>

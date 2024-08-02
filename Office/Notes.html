@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 95vw;
+            max-width: 600px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            position: relative;
+        }
+        h1 {
+            margin: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+        }
+        .app {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .app-name {
+            margin-left: 5px;
+            font-size: 16px;
+        }
+        .note-form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .note-form input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .note-form button {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #3498db;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .note-form button:hover {
+            background: #2980b9;
+        }
+        .note-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .note-list li {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .note-list button {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .note-list button:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Notes App</h1>
+        <div class="app" onclick="openBackO()">
+            <i class="fas fa-angle-left"></i>
+            <div class="app-name">Back</div>
+            <script>
+                  function openBackO() {
+            window.location.href = '../Office/Office.html';
+        }
+            </script>
+        </div>
+        <div class="note-form">
+            <input type="text" id="noteContent" placeholder="Type your note here...">
+            <button onclick="addNote()">Add Note</button>
+        </div>
+        <ul class="note-list" id="noteList"></ul>
+    </div>
+
+    <script>
+      
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNotes();
+
+            // Add a new note
+            window.addNote = function() {
+                const noteContent = document.getElementById('noteContent').value;
+                if (noteContent.trim() === '') {
+                    alert('Please enter a note.');
+                    return;
+                }
+
+                const notes = JSON.parse(localStorage.getItem('notes')) || [];
+                const newNote = { id: Date.now(), content: noteContent };
+                notes.push(newNote);
+                localStorage.setItem('notes', JSON.stringify(notes));
+
+                document.getElementById('noteContent').value = '';
+                loadNotes();
+            }
+
+            // Delete a note
+            window.deleteNote = function(id) {
+                const notes = JSON.parse(localStorage.getItem('notes')) || [];
+                const filteredNotes = notes.filter(note => note.id !== id);
+                localStorage.setItem('notes', JSON.stringify(filteredNotes));
+                loadNotes();
+            }
+
+            // Load notes from local storage and display
+            function loadNotes() {
+                const notes = JSON.parse(localStorage.getItem('notes')) || [];
+                const noteList = document.getElementById('noteList');
+                noteList.innerHTML = '';
+
+                notes.forEach(note => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span>${note.content}</span>
+                        <button onclick="deleteNote(${note.id})">Delete</button>
+                    `;
+                    noteList.appendChild(li);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

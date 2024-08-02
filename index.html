@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Unlock</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="background">
+        <div class="mobile-phone">
+            <div class="wallpaper"></div>
+            
+            <button class="unlock-button">Unlock</button>
+        </div>
+        <div class="home-screen" id="homeScreen">
+            <div class="clock" id="clock"></div>
+            <div class="weather" id="weather" onclick="opentemp()">
+                <i class="fas fa-cloud-sun"></i>
+                <script>
+                    function opentemp() {
+                        window.location.href = '../MobilePhone/Menu/Weather.html';
+                    }
+                </script>
+                </div>
+            <div class="app-grid">
+                <div class="app" onclick="openCamera()">
+                    <i class="fas fa-camera"></i>
+                    <span>Camera</span>
+                    <script>
+                        function openCamera() {
+                            window.location.href = '../MobilePhone/Menu/Camera.html';
+                        }
+                    </script>
+                </div>
+                <div class="app"  onclick="openCalls()">
+                    <i class="fas fa-phone"></i>
+                    <span>Calls</span>
+                    <script>
+                        function openCalls() {
+                            window.location.href = '../MobilePhone/Menu/Calls.html';
+                        }
+                    </script>
+                </div>
+                <div class="app" onclick="openMenu()">
+                    <i class="fas fa-bars"></i>
+                    <span>Menu</span>
+                </div>
+        </div>
+    </div>
+   <script src="../Mobile-Phone.io/script.js"></script> 
+    <script>
+        function openMenu() {
+            window.location.href = '../Mobile-Phone.io/Menu/menugrid.html';
+        }
+    </script>
+</body>
+</html>

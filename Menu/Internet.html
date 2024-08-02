@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Search App</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative; /* Ensure the absolute positioning is relative to this container */
+        }
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 10; /* Ensure it's above other content */
+            background: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .back-button i {
+            font-size: 20px;
+            color: black;
+        }
+        .back-button span {
+            margin-left: 5px;
+            font-size: 16px;
+        }
+        .app-header {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .search-bar {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .search-bar input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+            font-size: 16px;
+        }
+        .search-bar button {
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .result {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .result-item {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .result-item a {
+            font-size: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .result-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="back-button" onclick="openBack()">
+            <i class="fas fa-angle-left"></i>
+            <span>Back</span>
+        </div>
+        <div class="app-header">Web Search App</div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Enter search term">
+            <button onclick="searchWeb()"><i class="fas fa-search"></i></button>
+        </div>
+        <div id="result" class="result"></div>
+    </div>
+    <script>
+        function openBack() {
+            window.location.href = '../Menu/menugrid.html';
+        }
+
+        async function searchWeb() {
+            const query = document.getElementById('searchInput').value;
+            const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&pretty=1`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const resultContainer = document.getElementById('result');
+                resultContainer.innerHTML = '';
+
+                if (data.RelatedTopics && data.RelatedTopics.length > 0) {
+                    data.RelatedTopics.forEach(item => {
+                        if (item.Result && item.Result !== '') {
+                            const resultItem = document.createElement('div');
+                            resultItem.className = 'result-item';
+                            resultItem.innerHTML = `
+                                <a href="${item.FirstURL}" target="_blank">${item.Text}</a>
+                            `;
+                            resultContainer.appendChild(resultItem);
+                        }
+                    });
+                } else {
+                    resultContainer.innerHTML = '<p>No results found.</p>';
+                }
+            } catch (error) {
+                document.getElementById('result').innerHTML = `<p>Failed to fetch search results. Please try again later.</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

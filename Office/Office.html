@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office Apps</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .app {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 80px;
+            height: 80px;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .app:hover {
+            background-color: #0056b3;
+        }
+        .app i {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .app-name {
+            font-size: 12px;
+        }
+        .folder {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            justify-content: center;
+        }
+        .app-back {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .app-back i {
+            font-size: 18px;
+            color: black;
+        }
+        .app-back .app-name {
+            margin-left: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="app-back" onclick="openBack()">
+            <i class="fas fa-angle-left"></i>
+            <div class="app-name">Back</div>
+        </div>
+        <h1>Mobile Folder</h1>
+        <div class="folder">
+            <div class="app" onclick="openExcel()">
+                <i class="fas fa-file-excel"></i>
+                <div class="app-name">Excel</div>
+            </div>
+            <div class="app" onclick="openPDF()">
+                <i class="fas fa-file-pdf"></i>
+                <div class="app-name">PDF</div>
+            </div>
+            <div class="app" onclick="openPaint()">
+                <i class="fas fa-paint-brush"></i>
+                <div class="app-name">Paint</div>
+            </div>
+            <div class="app" onclick="openNotes()">
+                <i class="fas fa-sticky-note"></i>
+                <div class="app-name">Notes</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openBack() {
+            window.location.href = '../Menu/menugrid.html';
+        }
+        function openExcel() {
+            window.location.href = '../Office/excel.html';
+        }
+        function openPDF() {
+            window.location.href = '../Office/Word.html';
+        }
+        function openPaint() {
+            window.location.href = '../Office/paint.html';
+        }
+        function openNotes() {
+            window.location.href = '../Office/Notes.html';
+        }
+    </script>
+</body>
+</html>

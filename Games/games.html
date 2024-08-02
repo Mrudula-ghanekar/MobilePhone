@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Folder Interface</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .app {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 10;
+        }
+        .app i {
+            font-size: 18px;
+            color: black;
+        }
+        .app-name {
+            margin-left: 5px;
+            font-size: 14px;
+        }
+        .folder {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 15px;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .app-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .app-icon:hover {
+            background: #e0e0e0;
+        }
+        .app-icon i {
+            font-size: 24px;
+            color: #007bff;
+        }
+        .app-icon p {
+            margin: 5px 0 0;
+            font-size: 12px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="app" onclick="openBackM()">
+            <i class="fas fa-angle-left"></i>
+            <div class="app-name">Back</div>
+        </div>
+        <h1>App Folder</h1>
+        <div class="folder">
+            <div class="app-icon" onclick="openXO()">
+                <i class="fas fa-gamepad"></i>
+                <p>Tic-Tac-Toe</p>
+            </div>
+            <div class="app-icon" onclick="openNumber()">
+                <i class="fas fa-dice-two"></i>
+                <p>Number</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openBackM() {
+            window.location.href = '../Menu/menugrid.html';
+        }
+        function openXO() {
+            window.location.href = '../Games/XO.html';
+        }
+        function openNumber() {
+            window.location.href = '../Games/Number.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .player-container {
+            width: 90vw;
+            max-width: 360px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .back-button i {
+            font-size: 20px;
+            color: black;
+        }
+        .back-button span {
+            margin-left: 5px;
+            font-size: 16px;
+        }
+        h1 {
+            margin: 0;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .controls button {
+            background: #3498db;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            width: 60px;
+            height: 60px;
+            font-size: 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .controls button:hover {
+            background: #2980b9;
+        }
+        .controls button.disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        audio {
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="player-container">
+        <div class="back-button" onclick="openBack()">
+            <i class="fas fa-angle-left"></i>
+            <span>Back</span>
+        </div>
+        <h1>Mobile Music Player</h1>
+        <audio id="audioPlayer" controls>
+            <source id="audioSource" src="../assets/audio_wind.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+        <div class="controls">
+            <button id="rewindButton">⏪</button>
+            <button id="playPauseButton">▶️</button>
+            <button id="forwardButton">⏩</button>
+        </div>
+    </div>
+
+    <script>
+        function openBack() {
+            window.location.href = '../Menu/menugrid.html';
+        }
+
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playPauseButton = document.getElementById('playPauseButton');
+        const rewindButton = document.getElementById('rewindButton');
+        const forwardButton = document.getElementById('forwardButton');
+
+        let isPlaying = false;
+
+        // Play or Pause button
+        playPauseButton.addEventListener('click', () => {
+            if (isPlaying) {
+                audioPlayer.pause();
+                playPauseButton.textContent = '▶️';
+            } else {
+                audioPlayer.play();
+                playPauseButton.textContent = '⏸️';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Rewind button
+        rewindButton.addEventListener('click', () => {
+            audioPlayer.currentTime -= 10; // Rewind 10 seconds
+        });
+
+        // Forward button
+        forwardButton.addEventListener('click', () => {
+            audioPlayer.currentTime += 10; // Forward 10 seconds
+        });
+
+        // Update play/pause button on audio end
+        audioPlayer.addEventListener('ended', () => {
+            playPauseButton.textContent = '▶️';
+            isPlaying = false;
+        });
+    </script>
+</body>
+</html>

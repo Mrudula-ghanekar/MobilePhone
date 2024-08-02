@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .calculator {
+            width: 95vw;
+            max-width: 400px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+            position: relative;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            color: white;
+            z-index: 10;
+        }
+
+        .back-button i {
+            font-size: 16px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.4em;
+            flex: 1;
+            text-align: center;
+        }
+
+        .display {
+            background-color: #222;
+            color: #fff;
+            padding: 20px;
+            text-align: right;
+            font-size: 2em;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .button {
+            padding: 20px;
+            font-size: 1.5em;
+            border: 1px solid #e0e0e0;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .button.operation {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .button.operation:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <header class="header">
+            <div class="back-button" onclick="openBack()">
+                <i class="fas fa-angle-left"></i>
+                <div class="app-name">Back</div>
+            </div>
+            <h1>Calculator</h1>
+        </header>
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <div class="button" onclick="clearDisplay()">C</div>
+            <div class="button" onclick="inputValue('(')">(</div>
+            <div class="button" onclick="inputValue(')')">)</div>
+            <div class="button operation" onclick="inputOperation('/')">/</div>
+            <div class="button" onclick="inputValue('7')">7</div>
+            <div class="button" onclick="inputValue('8')">8</div>
+            <div class="button" onclick="inputValue('9')">9</div>
+            <div class="button operation" onclick="inputOperation('*')">*</div>
+            <div class="button" onclick="inputValue('4')">4</div>
+            <div class="button" onclick="inputValue('5')">5</div>
+            <div class="button" onclick="inputValue('6')">6</div>
+            <div class="button operation" onclick="inputOperation('-')">-</div>
+            <div class="button" onclick="inputValue('1')">1</div>
+            <div class="button" onclick="inputValue('2')">2</div>
+            <div class="button" onclick="inputValue('3')">3</div>
+            <div class="button operation" onclick="inputOperation('+')">+</div>
+            <div class="button" onclick="inputValue('0')">0</div>
+            <div class="button" onclick="inputValue('.')">.</div>
+            <div class="button" onclick="calculateResult()" style="grid-column: span 2;">=</div>
+        </div>
+    </div>
+
+    <script>
+        function openBack() {
+            window.location.href = '../Menu/menugrid.html';
+        }
+
+        let displayElement = document.getElementById('display');
+        let currentInput = '';
+
+        function clearDisplay() {
+            currentInput = '';
+            displayElement.textContent = '0';
+        }
+
+        function inputValue(value) {
+            currentInput += value;
+            displayElement.textContent = currentInput;
+        }
+
+        function inputOperation(operation) {
+            currentInput += ' ' + operation + ' ';
+            displayElement.textContent = currentInput;
+        }
+
+        function calculateResult() {
+            try {
+                let result = eval(currentInput);
+                displayElement.textContent = result;
+                currentInput = result;
+            } catch (e) {
+                displayElement.textContent = 'Error';
+                currentInput = '';
+            }
+        }
+    </script>
+</body>
+</html>

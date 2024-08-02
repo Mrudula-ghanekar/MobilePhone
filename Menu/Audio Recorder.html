@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Audio Recorder & Music App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            width: 90vw;
+            max-width: 360px; /* Adjusted for mobile view */
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+            position: relative; /* Ensure absolute elements are positioned relative to this container */
+            height: 100%; /* Full height of the viewport */
+        }
+        .back-button {
+            position: absolute; /* Positioned inside the container */
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 20px; /* Adjust size for mobile view */
+            color: #333;
+            background: #ffffff; /* Background to ensure visibility */
+            border: 1px solid #ddd; /* Border to improve visibility */
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 10; /* Ensure it's above other content */
+        }
+        .back-button i {
+            font-size: 20px; /* Adjust size for mobile view */
+            margin-right: 8px;
+        }
+        h1 {
+            margin: 0;
+            margin-bottom: 20px;
+            font-size: 22px; /* Adjust size for mobile view */
+            color: #333;
+        }
+        .recorder-controls, .playback-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .recorder-controls button, .playback-controls button {
+            width: 70px; /* Larger buttons for mobile view */
+            height: 70px;
+            border: none;
+            border-radius: 50%;
+            background: #e74c3c;
+            color: #fff;
+            font-size: 24px;
+            margin: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .recorder-controls button:hover, .playback-controls button:hover {
+            background: #c0392b;
+        }
+        .recorder-controls button.disabled, .playback-controls button.disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .status {
+            margin: 20px 0;
+            font-size: 16px; /* Adjust size for mobile view */
+            color: #555;
+        }
+        audio {
+            width: 100%;
+            margin-top: 20px;
+        }
+        .playback-controls {
+            flex-direction: row;
+            justify-content: center;
+        }
+        .playback-controls button {
+            background: #3498db;
+        }
+        .playback-controls button:hover {
+            background: #2980b9;
+        }
+        .music-list {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .music-list h2 {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .music-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .music-list ul li {
+            margin: 10px 0;
+            padding: 10px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .music-list ul li:hover {
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back-button" onclick="openBack()">
+            <i class="fas fa-angle-left"></i>
+            <div>Back</div>
+        </div>
+        <h1>Audio Recorder</h1>
+        <div class="recorder-controls">
+            <button id="recordButton">🎙️</button>
+            <button id="stopButton" class="disabled" disabled>■</button>
+            <button id="downloadButton" class="disabled" disabled>↓</button>
+        </div>
+        <div class="status" id="status">Click "Start Recording" to begin.</div>
+        <audio id="audioPlayback" controls></audio>
+        <div class="playback-controls">
+            <button id="rewindButton">⏪</button>
+            <button id="playPauseButton" class="disabled" disabled>▶️</button>
+            <button id="forwardButton">⏩</button>
+        </div>
+        <div class="music-list">
+            <h2>Saved Recordings</h2>
+            <ul id="recordingsList"></ul>
+        </div>
+    </div>
+
+    <script>
+        function openBack() {
+            window.location.href = '../Menu/menugrid.html';
+        }
+
+        const recordButton = document.getElementById('recordButton');
+        const stopButton = document.getElementById('stopButton');
+        const playPauseButton = document.getElementById('playPauseButton');
+        const rewindButton = document.getElementById('rewindButton');
+        const forwardButton = document.getElementById('forwardButton');
+        const downloadButton = document.getElementById('downloadButton');
+        const status = document.getElementById('status');
+        const audioPlayback = document.getElementById('audioPlayback');
+        const recordingsList = document.getElementById('recordingsList');
+
+        let mediaRecorder;
+        let audioChunks = [];
+        let audioBlob;
+        let audioUrl;
+        let isPlaying = false;
+
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            alert('Your browser does not support the MediaRecorder API.');
+        }
+
+        // Start recording
+        recordButton.addEventListener('click', () => {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.start();
+                    status.textContent = 'Recording...';
+                    recordButton.classList.add('disabled');
+                    stopButton.classList.remove('disabled');
+                    stopButton.disabled = false;
+
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                        audioUrl = URL.createObjectURL(audioBlob);
+                        audioPlayback.src = audioUrl;
+                        playPauseButton.classList.remove('disabled');
+                        playPauseButton.disabled = false;
+                        downloadButton.classList.remove('disabled');
+                        downloadButton.disabled = false;
+                        status.textContent = 'Recording stopped. You can now play, pause, or download the recording.';
+                        recordButton.classList.remove('disabled');
+                        stopButton.classList.add('disabled');
+                        stopButton.disabled = true;
+                        audioChunks = [];
+
+                        // Save recording to localStorage
+                        saveRecording(audioUrl);
+                    };
+                })
+                .catch(error => {
+                    status.textContent = 'Error accessing microphone.';
+                    console.error('Error accessing microphone:', error);
+                });
+        });
+
+        // Stop recording
+        stopButton.addEventListener('click', () => {
+            mediaRecorder.stop();
+        });
+
+        // Play or Pause recording
+        playPauseButton.addEventListener('click', () => {
+            if (isPlaying) {
+                audioPlayback.pause();
+                playPauseButton.textContent = '▶️';
+            } else {
+                audioPlayback.play();
+                playPauseButton.textContent = '⏸️';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Rewind recording
+        rewindButton.addEventListener('click', () => {
+            audioPlayback.currentTime -= 10;
+        });
+
+        // Forward recording
+        forwardButton.addEventListener('click', () => {
+            audioPlayback.currentTime += 10;
+        });
+
+        // Download recording
+        downloadButton.addEventListener('click', () => {
+            const a = document.createElement('a');
+            a.href = audioUrl;
+            a.download = 'recording.wav';
+            a.click();
+        });
+
+        // Save recording to localStorage
+        function saveRecording(url) {
+            const recordings = JSON.parse(localStorage.getItem('recordings')) || [];
+            recordings.push(url);
+            localStorage.setItem('recordings', JSON.stringify(recordings));
+            loadRecordings();
+        }
+
+        // Load recordings from localStorage
+        function loadRecordings() {
+            const recordings = JSON.parse(localStorage.getItem('recordings')) || [];
+            recordingsList.innerHTML = '';
+            recordings.forEach(url => {
+                const listItem = document.createElement('li');
+                listItem.textContent = 'Recording';
+                listItem.onclick = () => {
+                    audioPlayback.src = url;
+                    audioPlayback.play();
+                    playPauseButton.textContent = '⏸️';
+                    isPlaying = true;
+                };
+                recordingsList.appendChild(listItem);
+            });
+        }
+
+        // Load recordings on page load
+        loadRecordings();
+    </script>
+</body>
+</html>

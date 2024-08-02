@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Calendar App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 360px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative; /* Ensure the absolute positioning is relative to this container */
+        }
+
+        .app-header {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #0499fd;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            position: relative; /* Ensure correct positioning of the back button */
+        }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            color: white;
+            z-index: 10; /* Ensure it's above other content */
+        }
+
+        .back-button i {
+            font-size: 16px;
+        }
+
+        .app-header h1 {
+            margin: 0;
+            font-size: 1.4em;
+            flex: 1;
+            text-align: center;
+        }
+
+        .calendar-container {
+            flex: 1;
+            overflow: hidden;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-gap: 15px;
+        }
+
+        .calendar-container iframe {
+            width: 100%;
+            height: 200px; /* Adjusted for mobile view */
+            border: none;
+        }
+
+        .event {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .event h2 {
+            margin: 0 0 5px;
+            font-size: 1em;
+            color: #333;
+        }
+
+        .event p {
+            margin: 0;
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px;
+            background-color: #0499fd;
+            color: white;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        footer button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        footer button:hover {
+            color: #d4d4d4;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header class="app-header">
+            <div class="back-button" onclick="openBack()">
+                <i class="fas fa-angle-left"></i>
+                <div class="app-name">Back</div>
+            </div>
+            <h1>My Calendar</h1>
+        </header>
+        <div class="calendar-container">
+            <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=UTC&bgcolor=%234285F4&title=Mrudula's%20calender&showPrint=0&mode=MONTH&src=ZW4tZ2IuaW5kaWFuI2hvbGlkYXlAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&color=%230B8043" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+            <div class="event">
+                <h2>Event Title</h2>
+                <p>Event details go here</p>
+            </div>
+            <div class="event">
+                <h2>Event Title</h2>
+                <p>Event details go here</p>
+            </div>
+            <!-- Add more events here -->
+        </div>
+        <footer>
+            <button>Today</button>
+            <button>Month</button>
+            <button>Week</button>
+            <button>Day</button>
+        </footer>
+    </div>
+
+    <script>
+        function openBack() {
+            window.location.href = '../Menu/menugrid.html';
+        }
+    </script>
+</body>
+</html>

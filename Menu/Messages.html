@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messaging App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .app-container {
+            width: 90vw;
+            max-width: 400px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            height: 90vh;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 10; /* Ensure it's above other content */
+        }
+
+        .back-button i {
+            font-size: 20px;
+            color: black;
+        }
+
+        .back-button span {
+            margin-left: 5px;
+            font-size: 16px;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            background-color: #3498db;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: 500;
+        }
+
+        .messages-container {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color: #f0f0f0;
+        }
+
+        .message {
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 70%;
+        }
+
+        .message.sent {
+            align-self: flex-end;
+            background-color: #3498db;
+            color: white;
+        }
+
+        .message.received {
+            align-self: flex-start;
+            background-color: #e0e0e0;
+        }
+
+        footer {
+            display: flex;
+            padding: 10px;
+            background-color: #fff;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        footer input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            margin-right: 10px;
+            font-size: 1em;
+        }
+
+        footer button {
+            padding: 10px 15px;
+            background-color: #3498db;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        footer button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="back-button" onclick="openBack()">
+            <i class="fas fa-angle-left"></i>
+            <span>Back</span>
+        </div>
+        <header>
+            <h1>Messaging App</h1>
+        </header>
+        <div class="messages-container" id="messagesContainer"></div>
+        <footer>
+            <input type="text" id="messageInput" placeholder="Start typing here...">
+            <button id="sendButton">Send</button>
+        </footer>
+    </div>
+
+    <script>
+        function openBack() {
+            window.location.href = '../Menu/menugrid.html';
+        }
+
+        const messagesContainer = document.getElementById('messagesContainer');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+
+        // In-memory storage for messages
+        let messages = [];
+
+        // Function to render messages
+        function renderMessages() {
+            messagesContainer.innerHTML = '';
+            messages.forEach(message => {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', message.type);
+                messageElement.textContent = message.text;
+                messagesContainer.appendChild(messageElement);
+            });
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Function to send a message
+        function sendMessage(text) {
+            if (text.trim() === '') return;
+
+            const message = {
+                text: text,
+                type: 'sent'
+            };
+            messages.push(message);
+            renderMessages();
+
+            // Simulate receiving a message after a delay
+            setTimeout(() => {
+                const receivedMessage = {
+                    text: 'Received: ' + text,
+                    type: 'received'
+                };
+                messages.push(receivedMessage);
+                renderMessages();
+            }, 1000);
+        }
+
+        sendButton.addEventListener('click', () => {
+            sendMessage(messageInput.value);
+            messageInput.value = '';
+        });
+
+        messageInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendMessage(messageInput.value);
+                messageInput.value = '';
+            }
+        });
+
+        // Initial render
+        renderMessages();
+    </script>
+</body>
+</html>

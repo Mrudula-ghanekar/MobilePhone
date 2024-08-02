@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Sheet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+        }
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            position: relative;
+        }
+        .app {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 10;
+        }
+        .app i {
+            font-size: 16px;
+            color: black;
+        }
+        .app-name {
+            margin-left: 5px;
+            font-size: 16px;
+        }
+        h1 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        @media (max-width: 600px) {
+            th, td {
+                font-size: 14px;
+            }
+        }
+        .button-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #form-container {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="app" onclick="goBack()">
+            <i class="fas fa-angle-left"></i>
+            <div class="app-name">Back</div>
+        </div>
+        <h1>Manage Sheet Data</h1>
+        <div class="button-container">
+            <button onclick="fetchSheetData()">Refresh Data</button>
+            <button onclick="showAddRowForm()">Add New Row</button>
+        </div>
+        <div id="form-container">
+            <form id="data-form">
+                <div id="form-fields"></div>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Occupation</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const API_URL = 'https://sheetdb.io/api/v1/e68eos8latmic';
+
+        function goBack() {
+            window.location.href = '../Office/Office.html'; // Update path as needed
+        }
+
+        async function fetchSheetData() {
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                renderTable(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        function renderTable(data) {
+            const tableBody = document.querySelector('#data-table tbody');
+            tableBody.innerHTML = ''; // Clear existing data
+
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                Object.values(row).forEach(cell => {
+                    const td = document.createElement('td');
+                    td.textContent = cell;
+                    tr.appendChild(td);
+                });
+                const actionsTd = document.createElement('td');
+                actionsTd.innerHTML = `
+                    <button onclick="deleteRow('${row.id}')">Delete</button>
+                `;
+                tr.appendChild(actionsTd);
+                tableBody.appendChild(tr);
+            });
+        }
+
+        function showAddRowForm() {
+            showForm(`
+                <h2>Add New Row</h2>
+                <label>Name: <input type="text" name="name" required></label><br>
+                <label>Age: <input type="number" name="age" required></label><br>
+                <label>Occupation: <input type="text" name="occupation" required></label><br>
+                <label>Role: <input type="text" name="role" required></label><br>
+            `, async (formData) => {
+                const row = {
+                    name: formData.get('name'),
+                    age: formData.get('age'),
+                    occupation: formData.get('occupation'),
+                    role: formData.get('role')
+                };
+                await addRow(row);
+            });
+        }
+
+        async function addRow(row) {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(row),
+                });
+                if (!response.ok) throw new Error('Network response was not ok');
+                await response.json();
+                fetchSheetData();
+            } catch (error) {
+                console.error('Error adding row:', error);
+            }
+        }
+
+        function showForm(innerHTML, onSubmit) {
+            const formContainer = document.getElementById('form-container');
+            formContainer.style.display = 'block';
+            const formFields = document.getElementById('form-fields');
+            formFields.innerHTML = innerHTML;
+            document.getElementById('data-form').onsubmit = async (event) => {
+                event.preventDefault();
+                const formData = new FormData(event.target);
+                await onSubmit(formData);
+                formContainer.style.display = 'none';
+            };
+        }
+
+        async function deleteRow(id) {
+            try {
+                const response = await fetch(`${API_URL}/${id}`, {
+                    method: 'DELETE',
+                });
+                if (!response.ok) throw new Error('Network response was not ok');
+                fetchSheetData();
+            } catch (error) {
+                console.error('Error deleting row:', error);
+            }
+        }
+
+        fetchSheetData(); // Initial fetch
+    </script>
+</body>
+</html>

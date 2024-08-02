@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image and Video Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .gallery {
+            width: 95vw;
+            max-width: 360px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            padding: 10px;
+            position: relative; /* Ensure the absolute positioning is relative to this container */
+        }
+
+        .app {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 10; /* Ensure it's above other content */
+            background: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .app i {
+            font-size: 16px;
+            color: black; /* Ensure the icon is visible */
+        }
+        
+        .app-name {
+            margin-left: 5px;
+            font-size: 16px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 5px;
+        }
+
+        .grid-item {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 100%; /* This creates a 1:1 aspect ratio */
+        }
+
+        .grid-item img,
+        .grid-item video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            overflow: hidden;
+        }
+
+        .fullscreen-overlay img,
+        .fullscreen-overlay video {
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            gap: 20px;
+        }
+
+        .controls .fa {
+            font-size: 36px;
+            cursor: pointer;
+            color: white;
+            transition: color 0.3s;
+        }
+
+        .controls .fa:hover {
+            color: #2980b9;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 36px;
+            cursor: pointer;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery">
+        <div class="app" onclick="openBack()">
+            <i class="fas fa-angle-left"></i>
+            <div class="app-name">Back</div>
+        </div>
+        <div class="grid" id="galleryGrid"></div>
+        <div class="fullscreen-overlay" id="fullscreenOverlay">
+            <i class="fa fa-times close" id="closeOverlay"></i>
+            <img id="fullscreenImage" style="display: none;">
+            <video id="fullscreenVideo" controls style="display: none;"></video>
+            <div class="controls" id="videoControls" style="display: none;">
+                <i class="fa fa-backward" id="rewind"></i>
+                <i class="fa fa-forward" id="forward"></i>
+            </div>
+        </div>
+        <input type="file" id="fileInput" multiple accept="image/*,video/*" style="display: none;">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const galleryGrid = document.getElementById('galleryGrid');
+            const fullscreenOverlay = document.getElementById('fullscreenOverlay');
+            const fullscreenImage = document.getElementById('fullscreenImage');
+            const fullscreenVideo = document.getElementById('fullscreenVideo');
+            const closeOverlay = document.getElementById('closeOverlay');
+            const videoControls = document.getElementById('videoControls');
+            const rewindButton = document.getElementById('rewind');
+            const forwardButton = document.getElementById('forward');
+            const fileInput = document.getElementById('fileInput');
+
+            // Predefined media set
+            const media = {
+                images: ['../assets/Image_space.jpg'],
+                videos: ['../assets/road.mp4', '../assets/sunset.mp4']
+            };
+
+            // Function to add media to the gallery grid
+            function addMediaToGallery(file) {
+                const gridItem = document.createElement('div');
+                gridItem.classList.add('grid-item');
+
+                if (file.type === 'image') {
+                    const img = document.createElement('img');
+                    img.src = file.src;
+                    img.addEventListener('click', () => openFullscreen(file));
+                    gridItem.appendChild(img);
+                } else if (file.type === 'video') {
+                    const video = document.createElement('video');
+                    video.src = file.src;
+                    video.controls = false;
+                    video.addEventListener('click', () => openFullscreen(file));
+                    gridItem.appendChild(video);
+                }
+                galleryGrid.appendChild(gridItem);
+            }
+
+            // Open media in fullscreen
+            function openFullscreen(file) {
+                if (file.type === 'image') {
+                    fullscreenImage.src = file.src;
+                    fullscreenImage.style.display = 'block';
+                    fullscreenVideo.style.display = 'none';
+                    videoControls.style.display = 'none';
+                } else if (file.type === 'video') {
+                    fullscreenVideo.src = file.src;
+                    fullscreenVideo.style.display = 'block';
+                    fullscreenImage.style.display = 'none';
+                    videoControls.style.display = 'flex';
+                }
+                fullscreenOverlay.style.visibility = 'visible';
+            }
+
+            // Close fullscreen overlay
+            closeOverlay.addEventListener('click', () => {
+                fullscreenOverlay.style.visibility = 'hidden';
+                fullscreenVideo.pause();
+            });
+
+            // Rewind video
+            rewindButton.addEventListener('click', () => {
+                fullscreenVideo.currentTime -= 10;
+            });
+
+            // Forward video
+            forwardButton.addEventListener('click', () => {
+                fullscreenVideo.currentTime += 10;
+            });
+
+            // Handle file input
+            fileInput.addEventListener('change', (event) => {
+                const files = event.target.files;
+
+                Array.from(files).forEach(file => {
+                    const fileURL = URL.createObjectURL(file);
+                    const fileType = file.type.startsWith('image/') ? 'image' : 'video';
+                    const fileObject = { type: fileType, src: fileURL };
+                    
+                    // Add media to gallery
+                    addMediaToGallery(fileObject);
+
+                    // Store in localStorage
+                    let media = JSON.parse(localStorage.getItem('media')) || { images: [], videos: [] };
+                    if (fileType === 'image') {
+                        media.images.push(fileURL);
+                    } else {
+                        media.videos.push(fileURL);
+                    }
+                    localStorage.setItem('media', JSON.stringify(media));
+                });
+            });
+
+            // Load predefined media
+            media.images.forEach(src => addMediaToGallery({ type: 'image', src }));
+            media.videos.forEach(src => addMediaToGallery({ type: 'video', src }));
+
+            // Clear localStorage after loading media
+            localStorage.removeItem('media');
+        });
+
+        function openBack() {
+            window.location.href = '../Menu/menugrid.html';
+        }
+    </script>
+</body>
+</html>

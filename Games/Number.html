@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative; /* Ensure the absolute positioning is relative to this container */
+        }
+        .app {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 10; /* Ensure it's above other content */
+        }
+        .app i {
+            font-size: 16px;
+            color: black; /* Ensure the icon is visible */
+        }
+        .app-name {
+            margin-left: 5px;
+            font-size: 16px;
+        }
+        input[type="number"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="app" onclick="openBackG()">
+            <i class="fas fa-angle-left"></i>
+            <div class="app-name">Back</div>
+        </div>
+        <h1>Guess the Number</h1>
+        <p>Guess a number between 1 and 100:</p>
+        <input type="number" id="guessInput" min="1" max="100">
+        <button id="guessButton">Guess</button>
+        <button id="resetButton">Reset</button>
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        function openBackG() {
+            window.location.href = '../Games/games.html';
+        }
+
+        const guessInput = document.getElementById('guessInput');
+        const guessButton = document.getElementById('guessButton');
+        const resetButton = document.getElementById('resetButton');
+        const message = document.getElementById('message');
+
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+
+        function checkGuess() {
+            const userGuess = Number(guessInput.value);
+            if (userGuess < 1 || userGuess > 100) {
+                message.textContent = 'Please enter a number between 1 and 100.';
+                return;
+            }
+            if (userGuess < randomNumber) {
+                message.textContent = 'Too low! Try again.';
+            } else if (userGuess > randomNumber) {
+                message.textContent = 'Too high! Try again.';
+            } else {
+                message.textContent = 'Congratulations! You guessed the number!';
+            }
+        }
+
+        function resetGame() {
+            randomNumber = Math.floor(Math.random() * 100) + 1;
+            guessInput.value = '';
+            message.textContent = '';
+        }
+
+        guessButton.addEventListener('click', checkGuess);
+        resetButton.addEventListener('click', resetGame);
+    </script>
+</body>
+</html>
