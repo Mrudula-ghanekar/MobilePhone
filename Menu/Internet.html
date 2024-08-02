@@ -17,14 +17,15 @@
             font-family: Arial, sans-serif;
         }
         .app-container {
-            width: 100%;
-            max-width: 400px;
-            padding: 20px;
+            width: 90%;
+            max-width: 360px;
+            padding: 15px;
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            position: relative; /* Ensure the absolute positioning is relative to this container */
+            position: relative;
+            box-sizing: border-box;
         }
         .back-button {
             position: absolute;
@@ -33,55 +34,57 @@
             display: flex;
             align-items: center;
             cursor: pointer;
-            font-size: 16px;
-            z-index: 10; /* Ensure it's above other content */
+            font-size: 14px;
             background: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
+            padding: 8px;
+            border-radius: 50px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         .back-button i {
-            font-size: 20px;
+            font-size: 18px;
             color: black;
         }
         .back-button span {
             margin-left: 5px;
-            font-size: 16px;
+            font-size: 14px;
         }
         .app-header {
-            font-size: 24px;
-            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
         }
         .search-bar {
             display: flex;
-            margin-bottom: 20px;
+            flex-direction: column;
         }
         .search-bar input {
-            flex: 1;
+            width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
-            border-radius: 5px 0 0 5px;
-            font-size: 16px;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-bottom: 10px;
         }
         .search-bar button {
+            width: 100%;
             padding: 10px;
             border: none;
             background-color: #007bff;
             color: #fff;
-            border-radius: 0 5px 5px 0;
+            border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
         }
         .result {
-            font-size: 18px;
-            margin-top: 20px;
-        }
-        .result-item {
-            margin-bottom: 20px;
+            font-size: 14px;
+            margin-top: 15px;
             text-align: left;
         }
+        .result-item {
+            margin-bottom: 10px;
+        }
         .result-item a {
-            font-size: 20px;
+            font-size: 14px;
             color: #007bff;
             text-decoration: none;
         }
