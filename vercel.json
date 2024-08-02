@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "mobile-phone/index.html",
+        "src": "mobilephone/index.html",
         "use": "@vercel/static-build",
         "config": {
           "distDir": "mobile-phone"
@@ -12,7 +12,7 @@
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "/mobile-phone/$1"
+        "dest": "/mobilephone/$1"
       }
     ]
   }
