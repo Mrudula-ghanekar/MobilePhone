@@ -1,16 +1,5 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "MobilePhone/",
-        "use": "@vercel/static-build",
-        "config": {
-          "distDir": "mobile-phone"
-        }
-      }
-    ],
     "rewrites": [
-      { "source": "/(.*)", "destination": "/MobilePhone/$1" }
+        {"source": "/(.*)", "destination": "/"}
     ]
-  }
-  
+}
