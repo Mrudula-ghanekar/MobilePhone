@@ -20,11 +20,11 @@
         .container {
             width: 100%;
             max-width: 360px;
+            height: 100vh;
             padding: 10px;
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            height: 100%;
             background: #fff;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -51,7 +51,8 @@
         .recent-calls {
             flex: 1;
             overflow-y: auto;
-            margin-top: 50px; /* Adjusted to avoid overlap with back button */
+            background: #f9f9f9;
+            margin-bottom: 10px; /* Adjusted margin for better visibility */
         }
         .recent-calls h2 {
             margin: 0;
@@ -85,13 +86,10 @@
             color: #555;
         }
         .keypad {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
             background: #fff;
             border-radius: 10px;
-            margin-top: 10px;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
         }
         .keypad input {
             width: 100%;
@@ -144,6 +142,21 @@
         .call-btn:hover {
             background-color: #218838;
         }
+        .clear-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.5em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #e74c3c;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        .clear-btn:hover {
+            background-color: #c0392b;
+        }
     </style>
 </head>
 <body>
@@ -175,6 +188,7 @@
                 <button onclick="addNumber('#')">#</button>
             </div>
             <button class="call-btn" onclick="callNumber()"><i class="fas fa-phone-alt"></i></button>
+            <button class="clear-btn" onclick="clearLastDigit()">Clear </button>
         </div>
     </div>
 
@@ -203,6 +217,10 @@
 
             window.addNumber = function(number) {
                 phoneNumberInput.value += number;
+            }
+
+            window.clearLastDigit = function() {
+                phoneNumberInput.value = phoneNumberInput.value.slice(0, -1);
             }
 
             window.callNumber = function() {

@@ -24,7 +24,7 @@
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: relative; /* Ensure the absolute positioning is relative to this container */
+            position: relative;
         }
         .app {
             position: absolute;
@@ -34,15 +34,19 @@
             align-items: center;
             cursor: pointer;
             font-size: 16px;
-            z-index: 10; /* Ensure it's above other content */
+            z-index: 10;
         }
         .app i {
             font-size: 16px;
-            color: black; /* Ensure the icon is visible */
+            color: black;
         }
         .app-name {
             margin-left: 5px;
             font-size: 16px;
+        }
+        h1 {
+            margin: 20px 0;
+            font-size: 1.5em;
         }
         input[type="number"] {
             width: 80%;
@@ -68,6 +72,17 @@
         .message {
             font-size: 18px;
             margin-top: 10px;
+            color: #333;
+        }
+        .score {
+            font-size: 20px;
+            margin-top: 20px;
+            color: #333;
+        }
+        .hint {
+            font-size: 16px;
+            margin-top: 10px;
+            color: #888;
         }
     </style>
 </head>
@@ -83,6 +98,8 @@
         <button id="guessButton">Guess</button>
         <button id="resetButton">Reset</button>
         <div class="message" id="message"></div>
+        <div class="score" id="score">Attempts: 0</div>
+        <div class="hint" id="hint"></div>
     </div>
 
     <script>
@@ -94,8 +111,12 @@
         const guessButton = document.getElementById('guessButton');
         const resetButton = document.getElementById('resetButton');
         const message = document.getElementById('message');
+        const score = document.getElementById('score');
+        const hint = document.getElementById('hint');
 
         let randomNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+        const maxAttempts = 3;
 
         function checkGuess() {
             const userGuess = Number(guessInput.value);
@@ -103,19 +124,34 @@
                 message.textContent = 'Please enter a number between 1 and 100.';
                 return;
             }
+            attempts++;
             if (userGuess < randomNumber) {
                 message.textContent = 'Too low! Try again.';
+                hint.textContent = 'Try a higher number.';
             } else if (userGuess > randomNumber) {
                 message.textContent = 'Too high! Try again.';
+                hint.textContent = 'Try a lower number.';
             } else {
                 message.textContent = 'Congratulations! You guessed the number!';
+                hint.textContent = '';
+                return; // Stop checking if the number is guessed correctly
             }
+            if (attempts >= maxAttempts) {
+                message.textContent = `Game over! The number was ${randomNumber}.`;
+                hint.textContent = '';
+                guessButton.disabled = true; // Disable the guess button after max attempts
+            }
+            score.textContent = `Attempts: ${attempts}`;
         }
 
         function resetGame() {
             randomNumber = Math.floor(Math.random() * 100) + 1;
             guessInput.value = '';
             message.textContent = '';
+            hint.textContent = '';
+            attempts = 0;
+            score.textContent = 'Attempts: 0';
+            guessButton.disabled = false; // Re-enable the guess button
         }
 
         guessButton.addEventListener('click', checkGuess);
