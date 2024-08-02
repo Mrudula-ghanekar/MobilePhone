@@ -2,17 +2,14 @@
     "version": 2,
     "builds": [
       {
-        "src": "../MobilePhone/index.html",
-        "use": "@vercel/static-build",
-        "config": {
-          "distDir": "MobilePhone"
-        }
+        "src": "MobilePhone",
+        "use": "@vercel/next"
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "../MobilePhone/index.html"
+        "dest": "/$1"
       }
     ]
   }
