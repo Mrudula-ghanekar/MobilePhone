@@ -1,16 +1,5 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "MobilePhone",
-        "use": "@vercel/next"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/$1"
-      }
+    "rewrites": [
+        {"source": "/(.*)", "destination": "/"}
     ]
-  }
-  
+}
