@@ -1,0 +1,19 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "MobilePhone/index.html",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "MobilePhone"
+        }
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "/MobilePhone/$1"
+      }
+    ]
+  }
+  
