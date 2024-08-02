@@ -52,7 +52,7 @@
             flex: 1;
             overflow-y: auto;
             background: #f9f9f9;
-            margin-bottom: 10px; /* Adjusted margin for better visibility */
+            margin-bottom: 10px; 
         }
         .recent-calls h2 {
             margin: 0;
@@ -168,7 +168,7 @@
         <div class="recent-calls">
             <h2>Recent Calls</h2>
             <ul class="call-list" id="callList">
-                <!-- Recent calls will be displayed here -->
+                <!-- Recent calls sec -->
             </ul>
         </div>
         <div class="keypad">
@@ -196,8 +196,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const callList = document.getElementById('callList');
             const phoneNumberInput = document.getElementById('phoneNumber');
-            
-            // Load recent calls from local storage
+
             let recentCalls = JSON.parse(localStorage.getItem('recentCalls')) || [];
 
             function renderCalls() {

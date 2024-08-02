@@ -1,3 +1,4 @@
+/* css of grid view */
 body, html {
     margin: 0;
     padding: 0;
@@ -10,14 +11,14 @@ body, html {
 
 .background {
     background: linear-gradient(to bottom right, #2c3e50, #3498db);
-    width: 360px; /* Adjusted width to match a common mobile screen width */
-    height: 640px; /* Adjusted height to match a common mobile screen height */
+    width: 360px; 
+    height: 640px; 
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    border-radius: 30px; /* Rounded corners for the mobile phone */
-    overflow: hidden; /* Ensure content doesn't spill out */
+    border-radius: 30px; 
+    overflow: hidden; 
 }
 
 .mobile-phone {
@@ -38,7 +39,7 @@ body, html {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    box-sizing: border-box; /* Ensure padding doesn't overflow */
+    box-sizing: border-box; 
 }
 
 .clock {
@@ -64,14 +65,14 @@ body, html {
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     width: 100%;
-    max-width: 300px; /* Constrain width for better fit */
+    max-width: 300px; 
 }
 
 .app {
     background: rgba(255, 255, 255, 0.2);
     color: #fff;
     text-align: center;
-    padding: 15px; /* Increased padding for better touch targets */
+    padding: 15px; 
     border-radius: 10px;
     cursor: pointer;
     transition: background 0.3s;
@@ -79,7 +80,7 @@ body, html {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-sizing: border-box; /* Ensure padding doesn't overflow */
+    box-sizing: border-box; 
 }
 
 .app:hover {

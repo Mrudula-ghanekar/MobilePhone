@@ -1,3 +1,4 @@
+/*  body css*/
 body, html {
     margin: 0;
     padding: 0;
@@ -7,7 +8,7 @@ body, html {
     align-items: center;
     font-family: Arial, sans-serif;
 }
-
+/* bg behind phone styles */
 .background {
     background: linear-gradient(to bottom right, #2c3e50, #3498db);
     width: 100%;
@@ -18,6 +19,7 @@ body, html {
     position: relative;
 }
 
+/* mobile style*/
 .mobile-phone, .home-screen {
     width: 300px;
     height: 600px;
@@ -28,11 +30,11 @@ body, html {
     overflow: hidden;
     background: url('assets/starry_image.jpg');
 }
-
+/* mobile wallpaper*/
 .wallpaper {
     width: 100%;
     height: 100%;
-    background: #000;  /* Black background instead of starry background */
+    background: #000;  
     background: url('assets/starry_image.jpg');
 }
 
@@ -53,7 +55,7 @@ body, html {
 .unlock-button:hover {
     background: rgba(255, 255, 255, 0.4);
 }
-
+/*after clicking unlock button */
 .home-screen {
     display: none;
     flex-direction: column;

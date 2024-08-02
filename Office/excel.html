@@ -115,7 +115,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Data will be inserted here -->
             </tbody>
         </table>
     </div>
@@ -124,7 +123,7 @@
         const API_URL = 'https://sheetdb.io/api/v1/e68eos8latmic';
 
         function goBack() {
-            window.location.href = '../Office/Office.html'; // Update path as needed
+            window.location.href = '../Office/Office.html';
         }
 
         async function fetchSheetData() {
@@ -140,7 +139,7 @@
 
         function renderTable(data) {
             const tableBody = document.querySelector('#data-table tbody');
-            tableBody.innerHTML = ''; // Clear existing data
+            tableBody.innerHTML = ''; 
 
             data.forEach(row => {
                 const tr = document.createElement('tr');
@@ -218,7 +217,7 @@
             }
         }
 
-        fetchSheetData(); // Initial fetch
+        fetchSheetData(); 
     </script>
 </body>
 </html>

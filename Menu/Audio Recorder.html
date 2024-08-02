@@ -19,39 +19,39 @@
         }
         .container {
             width: 90vw;
-            max-width: 360px; /* Adjusted for mobile view */
+            max-width: 360px; 
             background: #ffffff;
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             padding: 20px;
             text-align: center;
-            position: relative; /* Ensure absolute elements are positioned relative to this container */
-            height: 100%; /* Full height of the viewport */
+            position: relative; 
+            height: 100%; 
         }
         .back-button {
-            position: absolute; /* Positioned inside the container */
+            position: absolute; 
             top: 10px;
             left: 10px;
             display: flex;
             align-items: center;
             cursor: pointer;
-            font-size: 20px; /* Adjust size for mobile view */
+            font-size: 20px; 
             color: #333;
-            background: #ffffff; /* Background to ensure visibility */
-            border: 1px solid #ddd; /* Border to improve visibility */
+            background: #ffffff; 
+            border: 1px solid #ddd; 
             border-radius: 5px;
             padding: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            z-index: 10; /* Ensure it's above other content */
+            z-index: 10; 
         }
         .back-button i {
-            font-size: 20px; /* Adjust size for mobile view */
+            font-size: 20px; 
             margin-right: 8px;
         }
         h1 {
             margin: 0;
             margin-bottom: 20px;
-            font-size: 22px; /* Adjust size for mobile view */
+            font-size: 22px;
             color: #333;
         }
         .recorder-controls, .playback-controls {
@@ -61,7 +61,7 @@
             margin-bottom: 20px;
         }
         .recorder-controls button, .playback-controls button {
-            width: 70px; /* Larger buttons for mobile view */
+            width: 70px; 
             height: 70px;
             border: none;
             border-radius: 50%;
@@ -81,7 +81,7 @@
         }
         .status {
             margin: 20px 0;
-            font-size: 16px; /* Adjust size for mobile view */
+            font-size: 16px; 
             color: #555;
         }
         audio {
@@ -174,7 +174,6 @@
             alert('Your browser does not support the MediaRecorder API.');
         }
 
-        // Start recording
         recordButton.addEventListener('click', () => {
             navigator.mediaDevices.getUserMedia({ audio: true })
                 .then(stream => {
@@ -203,7 +202,6 @@
                         stopButton.disabled = true;
                         audioChunks = [];
 
-                        // Save recording to localStorage
                         saveRecording(audioUrl);
                     };
                 })
@@ -213,12 +211,10 @@
                 });
         });
 
-        // Stop recording
         stopButton.addEventListener('click', () => {
             mediaRecorder.stop();
         });
 
-        // Play or Pause recording
         playPauseButton.addEventListener('click', () => {
             if (isPlaying) {
                 audioPlayback.pause();
@@ -230,17 +226,14 @@
             isPlaying = !isPlaying;
         });
 
-        // Rewind recording
         rewindButton.addEventListener('click', () => {
             audioPlayback.currentTime -= 10;
         });
 
-        // Forward recording
         forwardButton.addEventListener('click', () => {
             audioPlayback.currentTime += 10;
         });
 
-        // Download recording
         downloadButton.addEventListener('click', () => {
             const a = document.createElement('a');
             a.href = audioUrl;
@@ -248,7 +241,6 @@
             a.click();
         });
 
-        // Save recording to localStorage
         function saveRecording(url) {
             const recordings = JSON.parse(localStorage.getItem('recordings')) || [];
             recordings.push(url);
@@ -256,7 +248,6 @@
             loadRecordings();
         }
 
-        // Load recordings from localStorage
         function loadRecordings() {
             const recordings = JSON.parse(localStorage.getItem('recordings')) || [];
             recordingsList.innerHTML = '';
@@ -273,7 +264,6 @@
             });
         }
 
-        // Load recordings on page load
         loadRecordings();
     </script>
 </body>

@@ -112,6 +112,10 @@
             <div class="back-button" onclick="openBack()">
                 <i class="fas fa-angle-left"></i>
                 <span>Back</span>
+             <script> function openBack() {
+                    window.location.href = '../Menu/menugrid.html';
+                }
+            </script>  
             </div>
             <h1>YouTube</h1>
         </header>
@@ -125,7 +129,7 @@
     </div>
 
     <script>
-        const apiKey = 'AIzaSyBUhZDkKS2kDxDGifu_-7TCq2lSjeCn2As'; // Replace with your YouTube Data API key
+        const apiKey = 'AIzaSyBUhZDkKS2kDxDGifu_-7TCq2lSjeCn2As'; //API KEY is from YTSearch Google cloud console
 
         async function searchVideos() {
             const query = document.getElementById('search-input').value;
@@ -166,9 +170,7 @@
             });
         }
 
-        function openBack() {
-            window.location.href = '../Menu/menugrid.html';
-        }
+       
     </script>
 </body>
 </html>

@@ -37,7 +37,7 @@
             align-items: center;
             cursor: pointer;
             font-size: 16px;
-            z-index: 10; /* Ensure it's above other content */
+            z-index: 10; 
         }
 
         .back-button i {
@@ -152,10 +152,8 @@
         const messageInput = document.getElementById('messageInput');
         const sendButton = document.getElementById('sendButton');
 
-        // In-memory storage for messages
         let messages = [];
 
-        // Function to render messages
         function renderMessages() {
             messagesContainer.innerHTML = '';
             messages.forEach(message => {
@@ -167,7 +165,6 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        // Function to send a message
         function sendMessage(text) {
             if (text.trim() === '') return;
 
@@ -178,7 +175,6 @@
             messages.push(message);
             renderMessages();
 
-            // Simulate receiving a message after a delay
             setTimeout(() => {
                 const receivedMessage = {
                     text: 'Received: ' + text,
@@ -201,7 +197,6 @@
             }
         });
 
-        // Initial render
         renderMessages();
     </script>
 </body>

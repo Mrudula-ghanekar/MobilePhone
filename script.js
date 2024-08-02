@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const seconds = String(now.getSeconds()).padStart(2, '0');
         clock.textContent = `${hours}:${minutes}:${seconds}`;
     }
-/*
+/*    temp try 1
     async function fetchWeather() {
         try {
             const response = await fetch('https://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid=d88fdeb7eff8c619b8b77002b441a605');

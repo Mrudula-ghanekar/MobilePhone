@@ -110,7 +110,6 @@
 
         let isPlaying = false;
 
-        // Play or Pause button
         playPauseButton.addEventListener('click', () => {
             if (isPlaying) {
                 audioPlayer.pause();
@@ -122,17 +121,17 @@
             isPlaying = !isPlaying;
         });
 
-        // Rewind button
+   
         rewindButton.addEventListener('click', () => {
-            audioPlayer.currentTime -= 10; // Rewind 10 seconds
+            audioPlayer.currentTime -= 10;
         });
 
-        // Forward button
+
         forwardButton.addEventListener('click', () => {
-            audioPlayer.currentTime += 10; // Forward 10 seconds
+            audioPlayer.currentTime += 10; 
         });
 
-        // Update play/pause button on audio end
+     
         audioPlayer.addEventListener('ended', () => {
             playPauseButton.textContent = '▶️';
             isPlaying = false;

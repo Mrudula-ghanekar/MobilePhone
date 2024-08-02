@@ -22,7 +22,7 @@
             max-width: 600px;
             padding: 20px;
             box-sizing: border-box;
-            position: relative; /* Ensure the absolute positioning is relative to this container */
+            position: relative; 
         }
         .app {
             position: absolute;
@@ -32,11 +32,11 @@
             align-items: center;
             cursor: pointer;
             font-size: 16px;
-            z-index: 10; /* Ensure it's above other content */
+            z-index: 10; 
         }
         .app i {
             font-size: 16px;
-            color: black; /* Ensure the icon is visible */
+            color: black; 
         }
         .app-name {
             margin-left: 5px;
@@ -44,7 +44,7 @@
         }
         h1 {
             margin-bottom: 20px;
-            position: relative; /* Ensure h1 doesn't interfere with app positioning */
+            position: relative; 
         }
         canvas {
             border: 1px solid #000;
@@ -111,8 +111,8 @@
         const brushSizeValue = document.getElementById('brushSizeValue');
         let painting = false;
 
-        canvas.width = window.innerWidth * 0.9; // Adjust canvas width for mobile view
-        canvas.height = 400; // Set a fixed height
+        canvas.width = window.innerWidth * 0.9; 
+        canvas.height = 400; 
 
         function startPosition(e) {
             painting = true;
@@ -157,7 +157,6 @@
             brushSizeValue.textContent = brushSizeInput.value;
         });
 
-        // Adjust canvas size on window resize
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth * 0.9;
             canvas.height = 400;

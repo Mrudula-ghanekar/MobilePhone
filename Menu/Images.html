@@ -67,14 +67,14 @@
             position: relative;
             cursor: pointer;
             overflow: hidden;
-            aspect-ratio: 1 / 1; /* Ensures square aspect ratio */
+            aspect-ratio: 1 / 1; 
         }
 
         .grid-item img,
         .grid-item video {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ensures images and videos cover their containers */
+            object-fit: cover; 
             border-radius: 8px;
         }
 
@@ -97,7 +97,7 @@
         .fullscreen-overlay video {
             max-width: 90vw;
             max-height: 90vh;
-            object-fit: contain; /* Ensures media fits within the screen without stretching */
+            object-fit: contain; 
         }
 
         .controls {
@@ -160,13 +160,12 @@
             const forwardButton = document.getElementById('forward');
             const fileInput = document.getElementById('fileInput');
 
-            // Predefined media set
             const media = {
                 images: ['../assets/Image_space.jpg'],
                 videos: ['../assets/road.mp4', '../assets/sunset.mp4']
             };
 
-            // Function to add media to the gallery grid
+        
             function addMediaToGallery(file) {
                 const gridItem = document.createElement('div');
                 gridItem.classList.add('grid-item');
@@ -186,7 +185,7 @@
                 galleryGrid.appendChild(gridItem);
             }
 
-            // Open media in fullscreen
+     
             function openFullscreen(file) {
                 if (file.type === 'image') {
                     fullscreenImage.src = file.src;
@@ -202,23 +201,19 @@
                 fullscreenOverlay.style.visibility = 'visible';
             }
 
-            // Close fullscreen overlay
             closeOverlay.addEventListener('click', () => {
                 fullscreenOverlay.style.visibility = 'hidden';
                 fullscreenVideo.pause();
             });
 
-            // Rewind video
             rewindButton.addEventListener('click', () => {
                 fullscreenVideo.currentTime -= 10;
             });
 
-            // Forward video
             forwardButton.addEventListener('click', () => {
                 fullscreenVideo.currentTime += 10;
             });
 
-            // Handle file input
             fileInput.addEventListener('change', (event) => {
                 const files = event.target.files;
 
@@ -227,10 +222,8 @@
                     const fileType = file.type.startsWith('image/') ? 'image' : 'video';
                     const fileObject = { type: fileType, src: fileURL };
                     
-                    // Add media to gallery
                     addMediaToGallery(fileObject);
 
-                    // Store in localStorage
                     let media = JSON.parse(localStorage.getItem('media')) || { images: [], videos: [] };
                     if (fileType === 'image') {
                         media.images.push(fileURL);
@@ -241,11 +234,9 @@
                 });
             });
 
-            // Load predefined media
             media.images.forEach(src => addMediaToGallery({ type: 'image', src }));
             media.videos.forEach(src => addMediaToGallery({ type: 'video', src }));
 
-            // Clear localStorage after loading media
             localStorage.removeItem('media');
         });
 

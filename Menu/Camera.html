@@ -101,8 +101,7 @@
 
         let mediaRecorder;
         let recordedChunks = [];
-
-        // Access the device camera and stream to video element
+//asking permissions
         navigator.mediaDevices.getUserMedia({ video: true })
             .then(stream => {
                 video.srcObject = stream;
@@ -111,7 +110,7 @@
                 console.error('Error accessing the camera: ', error);
             });
 
-        // Capture image
+        // click image
         captureImageButton.addEventListener('click', () => {
             const canvas = document.createElement('canvas');
             canvas.width = video.videoWidth;
@@ -121,7 +120,7 @@
 
             const imgUrl = canvas.toDataURL('image/png');
 
-            // Store the image data in localStorage
+            // Store the image data in temp memory or browser
             let media = JSON.parse(localStorage.getItem('media')) || { images: [], videos: [] };
             media.images.push(imgUrl);
             localStorage.setItem('media', JSON.stringify(media));
@@ -149,7 +148,7 @@
                 const blob = new Blob(recordedChunks, { type: 'video/mp4' });
                 const videoUrl = URL.createObjectURL(blob);
 
-                // Store the video data in localStorage
+                // Store the video data in temp or browser
                 let media = JSON.parse(localStorage.getItem('media')) || { images: [], videos: [] };
                 media.videos.push(videoUrl);
                 localStorage.setItem('media', JSON.stringify(media));
@@ -168,14 +167,12 @@
             stopRecordingButton.style.color = '#3498db';
         });
 
-        // Stop recording
         stopRecordingButton.addEventListener('click', () => {
             mediaRecorder.stop();
             startRecordingButton.style.color = '#3498db';
             stopRecordingButton.style.color = 'grey';
         });
 
-        // Back button function
         function openBack() {
             window.location.href = '../Menu/menugrid.html';
         }
