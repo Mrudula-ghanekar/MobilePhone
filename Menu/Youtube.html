@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Video Search</title>
+    <title>YouTube </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -54,36 +54,55 @@
             padding: 10px;
             width: calc(100% - 42px);
             font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
         }
         #search-button {
             padding: 10px 20px;
             font-size: 16px;
             margin-top: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        #search-button:hover {
+            background-color: #0056b3;
         }
         #results {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
         }
         .video-item {
-            margin: 10px;
-            padding: 10px;
-            width: calc(100% - 40px);
-            max-width: 300px;
             background-color: #fff;
             border: 1px solid #ddd;
             border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .video-item img {
             width: 100%;
+            height: auto;
+            display: block;
         }
-        @media (min-width: 600px) {
-            #search-input {
-                width: 300px;
-            }
-            .video-item {
-                width: 300px;
-            }
+        .video-item h3 {
+            margin: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .video-item a {
+            display: block;
+            padding: 10px;
+            font-size: 14px;
+            color: #007bff;
+            text-decoration: none;
+            text-align: center;
+            background-color: #f8f9fa;
+        }
+        .video-item a:hover {
+            background-color: #e2e6ea;
         }
     </style>
 </head>
@@ -132,7 +151,7 @@
                 videoTitle.textContent = video.snippet.title;
 
                 const videoThumbnail = document.createElement('img');
-                videoThumbnail.src = video.snippet.thumbnails.high.url;
+                videoThumbnail.src = video.snippet.thumbnails.medium.url;
 
                 const videoLink = document.createElement('a');
                 videoLink.href = `https://www.youtube.com/watch?v=${video.id.videoId}`;
