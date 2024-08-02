@@ -1,5 +1,19 @@
 {
-    "rewrites": [
-        {"source": "/(.*)", "destination": "/"}
+    "version": 2,
+    "builds": [
+      {
+        "src": "mobile-phone/index.html",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "mobile-phone"
+        }
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "/mobile-phone/$1"
+      }
     ]
-}
+  }
+  
