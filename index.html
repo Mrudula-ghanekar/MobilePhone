@@ -6,15 +6,14 @@
     <title>Mobile Phone</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
 </head>
 <body>
     <div class="background">
         <div class="mobile-phone">
             <div class="wallpaper"></div>
-            
-            <div class="unlock-prompt">Click on the Unlock button to continue</div>
-            <button class="unlock-button">Unlock</button>
+            <div class="unlock-text" id="unlockText">Click on the unlock button to continue</div>
+            <button class="unlock-button" onclick="unlockPhone()">Unlock</button>
+            <div class="welcome-text" id="welcomeText" style="display: none;">Welcome to the phone. Click on the menu button to explore!</div>
         </div>
         <div class="home-screen" id="homeScreen">
             <div class="clock" id="clock"></div>
@@ -22,7 +21,7 @@
                 <i class="fas fa-cloud-sun"></i>
                 <script>
                     function opentemp() {
-                        window.location.href = '/Menu/Weather.html';
+                        window.location.href = 'MobilePhone/Menu/Weather.html';
                     }
                 </script>
             </div>
@@ -32,7 +31,7 @@
                     <span>Camera</span>
                     <script>
                         function openCamera() {
-                            window.location.href = '/Menu/Camera.html';
+                            window.location.href = 'MobilePhone/Menu/Camera.html';
                         }
                     </script>
                 </div>
@@ -41,7 +40,7 @@
                     <span>Calls</span>
                     <script>
                         function openCalls() {
-                            window.location.href = '/Menu/Calls.html';
+                            window.location.href = 'MobilePhone/Menu/Calls.html';
                         }
                     </script>
                 </div>
@@ -50,14 +49,20 @@
                     <span>Menu</span>
                     <script>
                         function openMenu() {
-                            window.location.href = '/Menu/menugrid.html';
+                            window.location.href = 'MobilePhone/Menu/menugrid.html';
                         }
                     </script>
                 </div>
             </div>
         </div>
-        <script src="script.js"></script> 
-        <!--all the onclick openfunc() does the work of opening the files linked to it -->
     </div>
+    <script src="script.js"></script> 
+    <script>
+        function unlockPhone() {
+            document.getElementById('unlockText').style.display = 'none';
+            document.getElementById('welcomeText').style.display = 'block';
+            document.getElementById('homeScreen').style.display = 'flex'; // Show home screen after unlocking
+        }
+    </script>
 </body>
 </html>
