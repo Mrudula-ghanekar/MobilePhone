@@ -128,3 +128,21 @@ body, html {
     border-radius: 10px;
 }
 
+        .unlock-prompt {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 1.2em;
+            text-align: center;
+        }
+        .unlock-button {
+        
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+ 
+
