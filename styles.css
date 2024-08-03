@@ -115,3 +115,16 @@ body, html {
     margin-top: 5px;
     font-size: 0.8em;
 }
+.unlock-text {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: white;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 10px;
+}
+

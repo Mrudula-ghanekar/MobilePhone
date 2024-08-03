@@ -11,7 +11,7 @@
     <div class="background">
         <div class="mobile-phone">
             <div class="wallpaper"></div>
-            
+            <div class="unlock-text">Click on the unlock button to continue</div>
             <button class="unlock-button">Unlock</button>
         </div>
         <div class="home-screen" id="homeScreen">
@@ -20,26 +20,26 @@
                 <i class="fas fa-cloud-sun"></i>
                 <script>
                     function opentemp() {
-                        window.location.href = '/Menu/Weather.html';
+                        window.location.href = 'MobilePhone/Menu/Weather.html';
                     }
                 </script>
-                </div>
+            </div>
             <div class="app-grid">
                 <div class="app" onclick="openCamera()">
                     <i class="fas fa-camera"></i>
                     <span>Camera</span>
                     <script>
                         function openCamera() {
-                            window.location.href = '/Menu/Camera.html';
+                            window.location.href = 'MobilePhone/Menu/Camera.html';
                         }
                     </script>
                 </div>
-                <div class="app"  onclick="openCalls()">
+                <div class="app" onclick="openCalls()">
                     <i class="fas fa-phone"></i>
                     <span>Calls</span>
                     <script>
                         function openCalls() {
-                            window.location.href = '/Menu/Calls.html';
+                            window.location.href = 'MobilePhone/Menu/Calls.html';
                         }
                     </script>
                 </div>
@@ -48,13 +48,13 @@
                     <span>Menu</span>
                     <script>
                         function openMenu() {
-                            window.location.href = '/Menu/menugrid.html';
+                            window.location.href = 'MobilePhone/Menu/menugrid.html';
                         }
                     </script>
                 </div>
+            </div>
         </div>
     </div>
-   <script src="script.js"></script> 
-   <!--all the onclick openfunc() does the work of opening the files linked to it -->
+    <script src="script.js"></script> 
 </body>
 </html>

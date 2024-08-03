@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create PDF Document</title>
+    <title> PDF Document</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
@@ -97,10 +97,8 @@
         </div>
     </div>
 
-    <!-- Include pdf-lib library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script>
-        // Verify that the pdf-lib library is loaded
         console.log("pdf-lib library loaded:", typeof PDFLib !== "undefined");
 
         function openBackO() {
@@ -114,13 +112,10 @@
 
                 const { PDFDocument, rgb } = PDFLib;
 
-                // Create a new PDFDocument
                 const pdfDoc = await PDFDocument.create();
 
-                // Add a blank page to the document
                 const page = pdfDoc.addPage();
 
-                // Set the font size and draw the text
                 const { width, height } = page.getSize();
                 const fontSize = 24;
                 page.drawText(content, {
@@ -130,10 +125,8 @@
                     color: rgb(0, 0, 0),
                 });
 
-                // Serialize the PDFDocument to bytes (a Uint8Array)
                 const pdfBytes = await pdfDoc.save();
 
-                // Create a blob from the bytes
                 const blob = new Blob([pdfBytes], { type: 'application/pdf' });
                 const url = window.URL.createObjectURL(blob);
                 console.log('Blob URL:', url);
@@ -142,7 +135,6 @@
                 downloadLink.href = url;
                 document.getElementById('download-link').style.display = 'block';
 
-                // Automatically trigger download
                 downloadLink.click();
 
                 console.log('Download initiated');
